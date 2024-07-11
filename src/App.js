@@ -10,6 +10,8 @@ import ModelPicker from "./Components/ModelPicker";
 import ColorPicker from "./Components/ColorPicker";
 import Insect from "./Components/Insect";
 import Teapot from "./Components/Teapot";
+import Mobile from "./Components/Mobile";
+
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 
 const RocketState = proxy({
@@ -49,6 +51,10 @@ const InsectState = proxy({
   colors: { body: "#d3d3d3", shell: "#a8a8a8" },
 });
 const TeapotState = proxy({
+  current: null,
+  colors: { lid: "#d3d3d3", base: "#a8a8a8" },
+});
+const MobileState = proxy({
   current: null,
   colors: { lid: "#d3d3d3", base: "#a8a8a8" },
 });
@@ -92,8 +98,14 @@ function App() {
   const updateTeapotColor = (pro, value) => {
     TeapotState.colors[pro] = value;
   };
-
+  const updateMobileCurrent = (value) => {
+    TeapotState.current = value;
+  };
+  const updateMobileColor = (pro, value) => {
+    TeapotState.colors[pro] = value;
+  };
   const renderSelectedModel = () => {
+    console.log('selectedModel: ', selectedModel)
     switch (selectedModel) {
       case "Shoe":
         return (
@@ -135,6 +147,10 @@ function App() {
             updateCurrent={updateTeapotCurrent}
           />
         );
+        case "Mobile":
+          return (
+            <Mobile></Mobile>
+          );
       default:
         break;
     }
@@ -157,6 +173,10 @@ function App() {
       case "Teapot":
         return (
           <ColorPicker state={TeapotState} updateColor={updateTeapotColor} />
+        );
+      case "Mobile":
+        return (
+          <ColorPicker state={MobileState} updateColor={updateMobileColor} />
         );
       default:
         break;

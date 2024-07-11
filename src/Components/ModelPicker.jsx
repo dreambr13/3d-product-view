@@ -4,6 +4,7 @@ import rocket from "../img/rocket.png";
 import axe from "../img/axe.png";
 import insect from "../img/insect.png";
 import teapot from "../img/teapot.png";
+import mobile from "../img/mobile.png";
 
 const ModelPicker = ({ updateSelectedModel }) => {
   return (
@@ -28,6 +29,10 @@ const ModelPicker = ({ updateSelectedModel }) => {
         <div onClick={() => updateSelectedModel("Teapot")}>
           <img src={teapot} alt="teapot" />
           <h4>Teapot</h4>
+        </div>
+        <div onClick={() => updateSelectedModel("Mobile")}>
+          <img src={mobile} alt="mobile" />
+          <h4>Mobile</h4>
         </div>
       </div>
     </>
