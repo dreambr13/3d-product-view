@@ -31,7 +31,7 @@ const ModelPicker = ({ updateSelectedModel }) => {
           <h4>Teapot</h4>
         </div>
         <div onClick={() => updateSelectedModel("Mobile")}>
-          <img src={mobile} alt="mobile" />
+          <img src={mobile} alt="Robot" />
           <h4>Robot</h4>
         </div>
       </div>
