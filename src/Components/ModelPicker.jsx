@@ -32,7 +32,7 @@ const ModelPicker = ({ updateSelectedModel }) => {
         </div>
         <div onClick={() => updateSelectedModel("Mobile")}>
           <img src={mobile} alt="mobile" />
-          <h4>Mobile</h4>
+          <h4>Robot</h4>
         </div>
       </div>
     </>
