@@ -1,4 +1,4 @@
-import { React, Suspense, useState, useRef } from "react";
+import { React, Suspense, useState, useRef, useContext,createContext } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Float } from "@react-three/drei";
 import { proxy } from "valtio";
@@ -13,7 +13,7 @@ import Teapot from "./Components/Teapot";
 import Mobile from "./Components/Mobile";
 
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
-
+export const SharedDataContext = createContext();
 const RocketState = proxy({
   current: null,
   colors: {
@@ -54,12 +54,17 @@ const TeapotState = proxy({
   current: null,
   colors: { lid: "#d3d3d3", base: "#a8a8a8" },
 });
+
 const MobileState = proxy({
   current: null,
-  colors: { lid: "#d3d3d3", base: "#a8a8a8" },
+  colors: { },
 });
 
 function App() {
+  const [sharedData, setSharedData] = useState('#000000');
+  const updateSharedData = (newData) => {
+    setSharedData(newData);
+  };
   const [selectedModel, setSelectedModel] = useState("Shoe");
   const [linkOpened, setLinkOpened] = useState(false);
   const controls = useRef();
@@ -99,10 +104,13 @@ function App() {
     TeapotState.colors[pro] = value;
   };
   const updateMobileCurrent = (value) => {
-    TeapotState.current = value;
+    MobileState.current = value;
   };
-  const updateMobileColor = (pro, value) => {
-    TeapotState.colors[pro] = value;
+  const updateMobileColor  = (pro, value) =>{
+    console.log('updateMobileColor', value)
+    console.log(pro)
+    // MobileState.colors[pro] = value;
+    // console.log(MobileState)
   };
   const renderSelectedModel = () => {
     console.log('selectedModel: ', selectedModel)
@@ -149,7 +157,10 @@ function App() {
         );
         case "Mobile":
           return (
-            <Mobile></Mobile>
+            <Mobile
+              colors = {MobileState.colors}
+              updateCurrent={updateMobileCurrent}
+            />
           );
       default:
         break;
@@ -157,6 +168,7 @@ function App() {
   };
 
   const renderSelectedColorPicker = () => {
+    console.log('selectedModel: ', selectedModel)
     switch (selectedModel) {
       case "Shoe":
         return <ColorPicker state={ShoeState} updateColor={updateShoeColor} />;
@@ -185,11 +197,12 @@ function App() {
 
   const updateSelectedModel = (selectedModel) => {
     controls.current.reset();
+    console.log(selectedModel)
     setSelectedModel(selectedModel);
   };
 
   return (
-    <>
+    <SharedDataContext.Provider value={{ sharedData, updateSharedData }}>
       <ModelPicker updateSelectedModel={updateSelectedModel} />
       {renderSelectedColorPicker()}
       <Canvas shadows camera={{ position: [1, 0, 2] }}>
@@ -221,7 +234,7 @@ function App() {
         <OrbitControls ref={controls} maxDistance={5} minDistance={1.5} />
       </Canvas>
       
-    </>
+    </SharedDataContext.Provider>
   );
 }
 
